@@ -6,6 +6,7 @@
  *
  * @author decoopmc
  * @version 1.0
+ * @see AnomalyListener
 */
 public interface GazListener extends AnomalyListener {
 

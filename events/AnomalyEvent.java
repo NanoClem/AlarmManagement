@@ -1,27 +1,30 @@
+import java.util.EventObject;
 
 /**
- * AnomalyEvent représente une modélisation d'une alarme
- * Cette classe constitue une base parente pour différents types d'alarmes
+ * AnomalyEvent modelise une alarme
+ * Cette classe constitue une base parente pour differents types d'alarmes
  *
  * @author decoopmc
  * @version 1.0
 */
-abstract class AnomalyEvent {
+abstract class AnomalyEvent extends EventObject {
+
   protected int idEvent;        // identifiant de l'event
   protected int criticalLevel;  // niveau d'importance (entre 1 et 3)
   protected long creationTime;  // date de creation (en ms)
-  protected String location;    // lieu d'émission
+  protected String location;    // lieu d'emission
 
   /**
   * CONSTRUCTEUR DE CLASSE AnomalyEvent
   *
+  * @param source : reference à l'objet declencheur de l'evènement
   * @param _idEvent : identifiant de l'event (selon le type d'alarme)
   * @param _criticalLevel : niveau d'importance (entre 1 et 3)
   * @param _creationTime : date de creation (en ms)
-  * @param _location : lieu d'émission
+  * @param _location : lieu d'emission
   */
-  public AnomalyEvent(int _idEvent, int _criticalLevel, long _creationTime, String _location)
-  {
+  public AnomalyEvent(Object source, int _idEvent, int _criticalLevel, long _creationTime, String _location) {
+    super(source);
     this.idEvent       = _idEvent;
     this.criticalLevel = _criticalLevel;
     this.creationTime  = _creationTime;
