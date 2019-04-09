@@ -8,11 +8,11 @@
  * @see AnomalyEvent
 */
 public class FireEvent extends AnomalyEvent {
-  
+
   /**
    * CONSTRUCTEUR DE CLASSE FireEvent
   */
-  public FireEvent(Object source, int _criticalLevel, long _creationTime, String _location) {
-    super(source, 1, _criticalLevel, _creationTime, _location);   // constructeur de classe mère
+  public FireEvent(int _criticalLevel, long _creationTime, String _location) {
+    super(1, _criticalLevel, _creationTime, _location);   // constructeur de classe mère
   }
 }

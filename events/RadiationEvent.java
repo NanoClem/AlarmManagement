@@ -8,7 +8,7 @@
  * @see AnomalyEvent
 */
 public class RadiationEvent extends AnomalyEvent {
-  
+
   private int radLevel = 0;   // niveau de radiation (entre 0 et 100)
 
   /**
@@ -16,8 +16,8 @@ public class RadiationEvent extends AnomalyEvent {
    *
    * @param _radLevel : niveau de radiation entre 0 et 100
   */
-  public RadiationEvent(Object source, int _criticalLevel, long _creationTime, String _location, int _radLevel) {
-    super(source, 3, _criticalLevel, _creationTime, _location);
+  public RadiationEvent(int _criticalLevel, long _creationTime, String _location, int _radLevel) {
+    super(3, _criticalLevel, _creationTime, _location);
     this.radLevel = _radLevel;
   }
 

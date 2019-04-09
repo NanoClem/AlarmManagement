@@ -16,8 +16,8 @@ public class GazEvent extends AnomalyEvent {
    *
    * @param _type : type de gaz emis (CO2, hydrogène, helium, ...)
   */
-  public GazEvent(Object source, int _criticalLevel, long _creationTime, String _location, String _type) {
-    super(source, 2, _criticalLevel, _creationTime, _location);   //constructeur de classe mère
+  public GazEvent(int _criticalLevel, long _creationTime, String _location, String _type) {
+    super(2, _criticalLevel, _creationTime, _location);   //constructeur de classe mère
     this.type = _type;
   }
 

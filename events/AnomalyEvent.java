@@ -23,8 +23,8 @@ abstract class AnomalyEvent extends EventObject {
   * @param _creationTime : date de creation (en ms)
   * @param _location : lieu d'emission
   */
-  public AnomalyEvent(Object source, int _idEvent, int _criticalLevel, long _creationTime, String _location) {
-    super(source);
+  public AnomalyEvent(int _idEvent, int _criticalLevel, long _creationTime, String _location) {
+    super();
     this.idEvent       = _idEvent;
     this.criticalLevel = _criticalLevel;
     this.creationTime  = _creationTime;
