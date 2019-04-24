@@ -1,3 +1,5 @@
+package adapters;
+import interfaces.FireListener;
 
 /**
  * Adapter de l'interface FireListener.

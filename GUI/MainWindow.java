@@ -1,60 +1,96 @@
-package GUI;
+import GUI.MyContentPanel;
 import java.util.*;
-import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 
-
+/**
+ * 
+ */
 public class MainWindow extends JFrame
-                        implements ActionListener, MouseListener
+                        implements ActionListener
 {
+  /**
+   * 
+   */
+  private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+  /**
+   * 
+   */
+  private Dimension frameSize = new Dimension(screenSize.width*2/3, screenSize.height*2/3);
+
+  /**
+   * 
+   */
+  private MyContentPanel content = new MyContentPanel(frameSize);
+
+
+  /**
+   * Cette classe represente la fenetre principale de l'application,
+   * dans laquelle tous les elements sont contenus.
+   * 
+   * @param title
+   * @throws Exception
+   */
   public MainWindow(String title) throws Exception
   {
     super(title);
-    setSize(700,700);
+    setSize(frameSize);
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
-    setAlwaysOnTop(true);
+    setAlwaysOnTop(false);
+    setLayout(new GridLayout());
 
-    // BARRE DE MENU
+    /*==========================================================
+        CONTENT PANEL
+    ==========================================================*/
+    this.setContentPane(content);
+
+    /*==========================================================
+        BARRE DE MENU
+    ==========================================================*/
     JMenuBar menuBar = new JMenuBar();
-    setJMenuBar(menuBar);
+    this.setJMenuBar(menuBar);
 
     // ELEMENTS DU MENU
     JMenu simu = new JMenu("Simu Alarm");
     menuBar.add(simu);
 
     // SOUS MENU
-    JMenuItem launch = new JMenuItem("launch");
+    JMenuItem launch = new JMenuItem("Simuler une alarme");
     simu.add(launch);
     simu.add(new JSeparator());                          // ligne séparatrice
     JMenuItem quit = new JMenuItem("Quitter");
     simu.add(quit);
 
-    // AJOUTS DES ACTION DE CLIC SUR LES ITEMS
-    quit.setActionCommand("quit");                       // Clic sur "Quitter"
+    // AJOUTS DES ACTION DE CLIC SUR LES ITEMS SOUS MENU
+    launch.setActionCommand("launch");
+    launch.addActionListener(this);
+    quit.setActionCommand("quit");
     quit.addActionListener(this);
+    
 
+    pack();
     setVisible(true);
   }
 
 
-  // SURCHARGE DES METHODES DE MOUSELISTENER
-  public void mousePressed(MouseEvent e) {}
-  public void mouseClicked(MouseEvent e) {}
-  public void mouseEntered(MouseEvent e) {}
-  public void mouseExited(MouseEvent e) {}
-  public void mouseReleased(MouseEvent e) {}
-
-
-  // ACTIONS DU MENU
+/**
+ * Indique les actions a effectuer au clic d'un element du menu
+ */
  public void actionPerformed(ActionEvent event)
   {
-    // ACTION LORSQUE L'ON CLIQUE SUR "Quitter"
-    if ( event.getActionCommand().equals("quit") )                 // si on sélectionne "Quitter"
+    // CLIC SUR "launch"
+    if(event.getActionCommand().equals("launch"))
+    {
+      new SimulationFrame(frameSize, "Alarm Simulator");
+    }    
+
+    // CLIC SUR "Quitter"
+    if (event.getActionCommand().equals("quit"))
     {
       JOptionPane pane = new JOptionPane();
       if ( pane.showConfirmDialog(this,                            // on demande une confirmation en rapport

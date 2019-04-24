@@ -1,4 +1,4 @@
-
+package interfaces;
 
 /**
  * Cette interface correspond à l'ecouteur des alarmes anti-incendies

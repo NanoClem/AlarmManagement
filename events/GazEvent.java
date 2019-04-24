@@ -1,3 +1,4 @@
+package events;
 
 /**
  * Cette classe constitue une alarme anti-gaz toxiques
@@ -9,7 +10,11 @@
 */
 public class GazEvent extends AnomalyEvent {
 
-  private String type;  // type de gaz emis (CO2, hydrogène, helium, ...)
+  /**
+   * Type de gaz concernant l'event.
+   * Ex : CO2, hydrogene, helium, ...
+   */
+  private String type;
 
   /**
    * CONSTRUCTEUR DE CLASSE GazEvent

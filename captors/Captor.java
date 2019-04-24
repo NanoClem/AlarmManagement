@@ -1,3 +1,4 @@
+package captors;
 
 /**
  * <b>CLASSE MERE DE TOUS LES DIFFERENTS TYPES DE CAPTEURS</b>
@@ -9,7 +10,7 @@
 
    /**
     * Identifiant du capteur.
-    * Il est unique pour chaque capteur.
+    * Unique pour chaque capteur.
     */
    private static int id;
 

@@ -1,5 +1,5 @@
+package interfaces;
 import java.util.EventListener;
-
 
 /**
  * AnomalyListener est une interface commune pour toutes les alarmes

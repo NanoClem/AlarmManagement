@@ -1,3 +1,4 @@
+package events;
 
 /**
  * Cette classe constitue une alarme anti-radiations

@@ -1,4 +1,6 @@
-import javax.swing.event.EventListenerlist;
+package events_managers;
+import javax.swing.event.EventListenerList;
+import interfaces.*;
 
 /**
  * <b>Monitor est une classe permettant de gerer les differents types d'alarmes</b>
@@ -35,7 +37,8 @@ public class Monitor {
    * @see Monitor#removeGazListener(GazListener)
    * @see Monitor#removeRadiationListener(RadiationListener)
    */
-  private final EventListenerlist listeners = new EventListenerList();    // un seul objet conteneur pour tous les types d'ecouteur
+  private final EventListenerList listeners = new EventListenerList(); // un seul objet conteneur pour tous les types
+                                                                       // d'ecouteur
 
   /**
    * <b>CONSTRUCTEUR DE CLASSE Monitor</b>
@@ -43,7 +46,7 @@ public class Monitor {
    * A la construction d'un objet Monitor, son type est de A ou B
    * </p>
    *
-   * @param _type : type du moniteur (A ou B)
+   * @param _type : type du moniteur
    * @see Monitor#type
    */
    public Monitor(String _type) {
@@ -58,7 +61,7 @@ public class Monitor {
    /**
     * Retourne le type du moniteur
     *
-    * @return type du moniteur (A ou B)
+    * @return type du moniteur
     */
    public String getType() {
      return this.type;
