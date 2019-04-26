@@ -64,6 +64,10 @@ public class MyTabContent extends JPanel
      */
     public void actionPerformed(ActionEvent event)
     {
-       // if(event.getActionCommand().equals();
+       if(event.getActionCommand().equals("alarm"))
+       {
+           System.out.println("AU FEU");
+       }
+
     }
 }
