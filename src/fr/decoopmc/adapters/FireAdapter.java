@@ -1,11 +1,11 @@
-package adapters;
-import interfaces.FireListener;
+package fr.decoopmc.adapters;
+import fr.decoopmc.interfaces.FireListener;
 
 /**
- * Adapter de l'interface FireListener.
+ * <b>Adapter de l'interface FireListener.</b>
  * <p>
  * Implemente FireListener et definit avec un corps vide ses methodes
- * Un ecouteur n'aura besoin que de redefinir uniqument la methode qu'il utilise, et non toutes
+ * Un ecouteur n'aura besoin que de redefinir uniquement la methode qu'il utilise, et non toutes
  * </p>
  *
  * @author decoopmc

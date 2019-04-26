@@ -1,4 +1,4 @@
-package events;
+package fr.decoopmc.events;
 
 /**
  * Cette classe constitue une alarme anti-incendies
@@ -13,7 +13,8 @@ public class FireEvent extends AnomalyEvent {
   /**
    * CONSTRUCTEUR DE CLASSE FireEvent
   */
-  public FireEvent(int _criticalLevel, long _creationTime, String _location) {
-    super(1, _criticalLevel, _creationTime, _location);   // constructeur de classe mère
+  public FireEvent(int _idCaptor, int _criticalLevel, long _creationTime, String _location) 
+  {
+    super(_idCaptor, _criticalLevel, _creationTime, _location);
   }
 }

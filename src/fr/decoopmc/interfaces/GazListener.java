@@ -1,4 +1,7 @@
-package interfaces;
+package fr.decoopmc.interfaces;
+
+import fr.decoopmc.events.GazEvent;
+
 
 /**
  * Cette interface correspond à l'écouteur des alarmes anti-gaz toxiques
@@ -9,5 +12,5 @@ package interfaces;
  * @see AnomalyListener
 */
 public interface GazListener extends AnomalyListener {
-
+    void criticalLevelChanged(GazEvent radiation);
 }

@@ -1,4 +1,7 @@
-package interfaces;
+package fr.decoopmc.interfaces;
+
+import fr.decoopmc.events.FireEvent;
+
 
 /**
  * Cette interface correspond à l'ecouteur des alarmes anti-incendies
@@ -7,9 +10,9 @@ package interfaces;
  * @author decoopmc
  * @version 1.0
  * @see AnomalyListener
-*/
+ */
 public interface FireListener extends AnomalyListener {
-  void criticalLevelChanged(int oldLevel, int newLevel);
-  void criticalLevelRaised(int oldLevel, int newLevel);
-  void criticalLevelDecreased(int oldLevel, int newLevel);
+  void criticalLevelChanged(FireEvent e);
+  // void criticalLevelRaised(FireEvent e);
+  // void criticalLevelDecreased(FireEvent e);
 }

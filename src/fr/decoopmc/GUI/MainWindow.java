@@ -1,5 +1,5 @@
-import GUI.MyContentPanel;
-import java.util.*;
+package fr.decoopmc.GUI;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -38,16 +38,16 @@ public class MainWindow extends JFrame
   {
     super(title);
     setSize(frameSize);
-    setResizable(false);
+    setResizable(true);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setAlwaysOnTop(false);
-    setLayout(new GridLayout());
+    setLayout(new BorderLayout());
 
     /*==========================================================
         CONTENT PANEL
     ==========================================================*/
-    this.setContentPane(content);
+    this.getContentPane().add(content, BorderLayout.CENTER);
 
     /*==========================================================
         BARRE DE MENU
@@ -73,7 +73,7 @@ public class MainWindow extends JFrame
     quit.addActionListener(this);
     
 
-    pack();
+    this.pack();
     setVisible(true);
   }
 
@@ -86,7 +86,7 @@ public class MainWindow extends JFrame
     // CLIC SUR "launch"
     if(event.getActionCommand().equals("launch"))
     {
-      new SimulationFrame(frameSize, "Alarm Simulator");
+      new SimulationFrame(this, new Dimension(frameSize.width/2, frameSize.height), "Alarm Simulator");
     }    
 
     // CLIC SUR "Quitter"

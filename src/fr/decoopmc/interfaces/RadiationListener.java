@@ -1,4 +1,6 @@
-package interfaces;
+package fr.decoopmc.interfaces;
+
+import fr.decoopmc.events.RadiationEvent;
 
 /**
  * Cette interface correspond à l'écouteur des alarmes anti-radiations
@@ -9,5 +11,7 @@ package interfaces;
  * @see AnomalyListener
 */
 public interface RadiationListener extends AnomalyListener {
+
+	void criticalLevelChanged(RadiationEvent radiation);
 
 }

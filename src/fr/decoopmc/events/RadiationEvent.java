@@ -1,4 +1,4 @@
-package events;
+package fr.decoopmc.events;
 
 /**
  * Cette classe constitue une alarme anti-radiations
@@ -10,22 +10,30 @@ package events;
 */
 public class RadiationEvent extends AnomalyEvent {
 
-  private int radLevel = 0;   // niveau de radiation (entre 0 et 100)
+  /**
+   * Niveau de radiation mesure (entre 0 et 100)
+   */
+  private int radLevel = 0;
 
   /**
    * CONSTRUCTEUR DE CLASSE RadiationEvent
    *
    * @param _radLevel : niveau de radiation entre 0 et 100
   */
-  public RadiationEvent(int _criticalLevel, long _creationTime, String _location, int _radLevel) {
-    super(3, _criticalLevel, _creationTime, _location);
+  public RadiationEvent(int _idCaptor, int _criticalLevel, long _creationTime, String _location, int _radLevel) {
+    super(_idCaptor, _criticalLevel, _creationTime, _location);
     this.radLevel = _radLevel;
   }
 
 
-  // GETTERS
+  /**
+   * 
+   */
   public int getRadLevel()  {return this.radLevel;}
 
-  // SETTERS
+  /**
+   * 
+   * @param newLevel
+   */
   public void setRadLevel(int newLevel) {this.radLevel = newLevel;}
 }
