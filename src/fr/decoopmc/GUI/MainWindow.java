@@ -24,7 +24,17 @@ public class MainWindow extends JFrame
   /**
    * 
    */
-  private MyContentPanel content = new MyContentPanel(frameSize);
+  private JList<String> eventList;
+
+  /**
+   * 
+   */
+  private JButton details = new JButton("Details");
+
+  /**
+   * 
+   */
+  private JButton archive = new JButton("Archiver");
 
 
   /**
@@ -42,12 +52,7 @@ public class MainWindow extends JFrame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setAlwaysOnTop(false);
-    setLayout(new BorderLayout());
-
-    /*==========================================================
-        CONTENT PANEL
-    ==========================================================*/
-    this.getContentPane().add(content, BorderLayout.CENTER);
+    this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
 
     /*==========================================================
         BARRE DE MENU
@@ -66,7 +71,14 @@ public class MainWindow extends JFrame
     JMenuItem quit = new JMenuItem("Quitter");
     simu.add(quit);
 
-    // AJOUTS DES ACTION DE CLIC SUR LES ITEMS SOUS MENU
+    /*==========================================================
+        CONTENU
+    ==========================================================*/
+    this.initContent();
+
+    /*==========================================================
+        AJOUTS DES ACTION DE CLIC SUR LES ITEMS SOUS MENU
+    ==========================================================*/
     launch.setActionCommand("launch");
     launch.addActionListener(this);
     quit.setActionCommand("quit");
@@ -77,6 +89,66 @@ public class MainWindow extends JFrame
     setVisible(true);
   }
 
+  /**
+   * 
+   */
+  public void initContent()
+  {
+    /*==================================
+        SOUS PANELS
+    ==================================*/
+    JPanel left = new JPanel();
+    left.setLayout(new BoxLayout(left, BoxLayout.PAGE_AXIS));
+    JPanel right = new JPanel();
+
+    /*==================================
+        LISTE DES EVENTS
+    ==================================*/
+    String[] data = {"Incendie", "Gaz", "Radiation"};
+    eventList = new JList<>(data);
+    eventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    eventList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    //JScrollPane scroller = new JScrollPane(eventList);
+
+    /*==================================
+        BOUTONS
+    ==================================*/
+    JPanel buttonPanel = new JPanel(new FlowLayout());
+    buttonPanel.add(details);
+    buttonPanel.add(archive);
+
+    /*==================================
+        PANNEAU AFFICHAGE DES INFOS
+    ==================================*/
+    JPanel infosDisplayer = new JPanel();
+    JLabel temp = new JLabel("Display alarm's data here");
+    infosDisplayer.add(temp);
+
+    /*==================================
+        LEFT PANEL
+    ==================================*/
+    left.add(eventList);
+    left.add(buttonPanel);
+
+    /*==================================
+        RIGHT PANEL
+    ==================================*/
+    right.add(infosDisplayer);
+
+    /*==================================
+        CONTENEUR PRINCIPAL
+    ==================================*/
+    this.getContentPane().add(left);
+    this.getContentPane().add(right);
+  }
+
+  /**
+   * TODO : passer un event en parametre
+   */
+  public void alarmLaunched(String alarmType, int critLevel, String location, long date)
+  {
+    System.out.println();
+  }
 
 /**
  * Indique les actions a effectuer au clic d'un element du menu
@@ -86,7 +158,7 @@ public class MainWindow extends JFrame
     // CLIC SUR "launch"
     if(event.getActionCommand().equals("launch"))
     {
-      new SimulationFrame(this, new Dimension(frameSize.width/2, frameSize.height), "Alarm Simulator");
+      new SimulationFrame(this, new Dimension(frameSize.width/4, frameSize.height/2), "Alarm Simulator");
     }    
 
     // CLIC SUR "Quitter"
