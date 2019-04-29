@@ -147,7 +147,10 @@ public class MainWindow extends JFrame
    */
   public void alarmLaunched(String alarmType, int critLevel, String location, long date)
   {
-    System.out.println();
+    System.out.println(alarmType);
+    System.out.println("Critical level " + critLevel);
+    System.out.println("Location " + location);
+    System.out.println("Date " + date);
   }
 
 /**
