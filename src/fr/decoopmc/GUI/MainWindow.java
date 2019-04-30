@@ -150,7 +150,7 @@ public class MainWindow extends JFrame
     System.out.println(alarmType);
     System.out.println("Critical level " + critLevel);
     System.out.println("Location " + location);
-    System.out.println("Date " + date);
+    System.out.println("Date " + date + '\n');
   }
 
 /**

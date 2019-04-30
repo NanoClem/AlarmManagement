@@ -40,7 +40,7 @@ public class SimulationFrame extends JFrame
     /**
      * 
      */
-    private JTextField building = new JTextField();
+    private JTextField building = new JTextField("Main Hall, 1rst floor...");
 
     /**
      * 
@@ -106,7 +106,7 @@ public class SimulationFrame extends JFrame
         ======================================= */
         JPanel alarmPanel = new JPanel();
         JLabel alarmLabel = new JLabel("Alarm Type :");
-        String[] types = {"Fire", "Gaz", "Radiation"};
+        String[] types = {"Fire", "Gaz", "Radiation"};      // UPGRADE : lire les types depuis XML ?
 
         for(int i = 0; i < 3; i++)
             alarmType.addItem(types[i]);
@@ -119,7 +119,7 @@ public class SimulationFrame extends JFrame
         ======================================= */
         JPanel buttonLabel = new JPanel();
         buttonLabel.add(launcher);
-        
+    
 
         /* =======================================
                     PANEL PRINCIPAL
@@ -132,24 +132,73 @@ public class SimulationFrame extends JFrame
         /* =======================================
                     EVENEMENTS
         ======================================= */
-        launcher.setActionCommand("FireAlarm");
+        launcher.setActionCommand("alarm");             // clic sur le bouton de declenchement de l'alarme
         launcher.addActionListener(this);
+        alarmType.setActionCommand("typeSelected");     // selection d'un type d'alarme
+        alarmType.addActionListener(this);
     }
 
     /**
+     * Produit une réponse aux actions écoutées 
+     * dans la fenêtre 
      * 
+     * @param event : évènement déclenché lors d'une action écoutée
      */
     public void actionPerformed(ActionEvent event)
     {
-        if (event.getActionCommand().equals("FireAlarm"))
-        {
-            String type = this.alarmType.getSelectedItem().toString();
-            int lvl     = this.critLevel.getSelectedIndex()+1;
-            String loc  = this.building.getText();
-            long date   = 45; //temp, recup date actuelle
+        String typeSelected = "";
+        int lvl             = 0;
+        String loc          = "";
+        long date           = 0;
 
-            this.parent.alarmLaunched(type, lvl, loc, date);
+
+        /* =======================================
+                SELECTION D'UN TYPE D'ALARME
+        ======================================= */
+        if(event.getActionCommand().equals("typeSelected"))
+        {
+            typeSelected = this.alarmType.getSelectedItem().toString();
+
+            if(typeSelected == "Gaz")
+            {
+                System.out.println(typeSelected + '\n');
+                // JPanel gazData  = new JPanel();
+                // JLabel gazLabel = new JLabel("Gaz type");
+                // JTextField gazType = new JTextField("C02, Azote.."); 
+                // gazData.add(gazLabel);
+                // gazData.add(gazType);
+                // this.getContentPane().add(gazData);
+            }
+        }
+
+        /* =======================================
+                DECLENCHEMENT D'UNE ALARME
+        ======================================= */
+        if (event.getActionCommand().equals("alarm"))
+        {
             //creer nouveau AnomalyEvent
+            typeSelected = this.alarmType.getSelectedItem().toString();
+            lvl          = this.critLevel.getSelectedIndex()+1;
+            loc          = this.building.getText();
+            date         = 45; //temp, recup date actuelle
+
+            //FIRE ALARM
+            if(typeSelected == "Fire")
+                this.parent.alarmLaunched(typeSelected, lvl, loc, date);
+
+            //GAZ ALARM
+            else if(typeSelected == "Gaz")
+            {
+                this.parent.alarmLaunched(typeSelected, lvl, loc, date);
+            }
+
+            //RADIATION ALARM
+            else if(typeSelected == "Radiation")
+            {
+                this.parent.alarmLaunched(typeSelected, lvl, loc, date);
+            }
+
+            
             
         }
     }

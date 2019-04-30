@@ -20,10 +20,10 @@ public class Main
         /*================================================
             TESTS CAPTEURS / MONITEUR
         ================================================*/
-        FireCaptor mainHall = new FireCaptor("Main Hall");
-        Monitor monitorA    = new Monitor("A");
+        // FireCaptor mainHall = new FireCaptor("Main Hall");
+        // Monitor monitorA    = new Monitor("A");
 
-        mainHall.addListener(monitorA);
-        mainHall.generateAnomalyEvent(2, 44);
+        // mainHall.addListener(monitorA);
+        // mainHall.generateAnomalyEvent(2, 44);
     }
 }
