@@ -2,16 +2,22 @@ package fr.decoopmc.GUI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import fr.decoopmc.captors.*;
+
 import javax.swing.JComboBox;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 
@@ -22,7 +28,7 @@ import java.awt.event.ActionListener;
  * 
  * @author decoopmc
  * @version 1.0
- * @see javax.swing.JPanel
+ * @see javax.swing.JFrame;
  */
 public class SimulationFrame extends JFrame
                              implements ActionListener {
@@ -38,24 +44,43 @@ public class SimulationFrame extends JFrame
     private JButton launcher = new JButton("Declencher");
 
     /**
-     * 
+     * Champ texte de la localisation
      */
     private JTextField building = new JTextField("Main Hall, 1rst floor...");
 
     /**
-     * 
+     * Liste déroulante du niveau critique
      */
     private JComboBox<Integer> critLevel = new JComboBox<>();
 
     /**
-     * 
+     * Liste déroulante du type d'alarme
      */
     private JComboBox<String> alarmType = new JComboBox<>();
+
+    /**
+     *  Panneau d'affichage de données supplémentaires selon le type d'alarme
+     */
+    JPanel moreData  = new JPanel();
+
+    /**
+     * champ texte du type de gaz
+     */
+    private JTextField gazType = new JTextField("C02, Azote..");
+
+    /**
+     * Liste déroulante du niveau de radiation
+     */
+    private JTextField radiationLevel = new JTextField("0");
 
 
     /**
      * <b>CONSTRUCTEUR DE CLASSE SimulationFrame</b>
      * <p>Il s'agit d'une fenêtre qui permet de simuler une alarme</p>
+     * 
+     * @param _parent : fenêtre parente
+     * @param size : taille de la fenêtre
+     * @param title
      */
     public SimulationFrame(MainWindow _parent, Dimension size, String title)
     {
@@ -68,10 +93,10 @@ public class SimulationFrame extends JFrame
         this.setAlwaysOnTop(true);
 
         this.initForm();
-        //this.pack();
         this.setVisible(true);
     }
 
+    
     /**
      * Construit les différents éléments du formulaire
      * de déclenchement d'alarmes
@@ -117,8 +142,8 @@ public class SimulationFrame extends JFrame
         /* =======================================
                      DECLENCHER
         ======================================= */
-        JPanel buttonLabel = new JPanel();
-        buttonLabel.add(launcher);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(launcher);
     
 
         /* =======================================
@@ -127,7 +152,8 @@ public class SimulationFrame extends JFrame
         this.getContentPane().add(locPanel);
         this.getContentPane().add(critPanel);
         this.getContentPane().add(alarmPanel);
-        this.getContentPane().add(buttonLabel);
+        this.getContentPane().add(moreData);
+        this.getContentPane().add(buttonPanel);
 
         /* =======================================
                     EVENEMENTS
@@ -146,60 +172,102 @@ public class SimulationFrame extends JFrame
      */
     public void actionPerformed(ActionEvent event)
     {
-        String typeSelected = "";
-        int lvl             = 0;
-        String loc          = "";
-        long date           = 0;
+        String typeSelected = "";                                               // type d'alarme selectionne
+        int lvl             = 0;                                                // niveau critique
+        String loc          = "";                                               // localisation
+        DateFormat format   = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");      // format de la date de declenchement
 
 
-        /* =======================================
-                SELECTION D'UN TYPE D'ALARME
-        ======================================= */
+        /* ----------------------------------
+            SELECTION D'UN TYPE D'ALARME
+        ----------------------------------- */
         if(event.getActionCommand().equals("typeSelected"))
         {
             typeSelected = this.alarmType.getSelectedItem().toString();
 
+            // INCENDIE
+            if(typeSelected == "Fire")
+            {
+                this.setVisible(false);
+                moreData.removeAll();
+                this.setVisible(true);
+            }
+            
+            // GAZ
             if(typeSelected == "Gaz")
             {
-                System.out.println(typeSelected + '\n');
-                // JPanel gazData  = new JPanel();
-                // JLabel gazLabel = new JLabel("Gaz type");
-                // JTextField gazType = new JTextField("C02, Azote.."); 
-                // gazData.add(gazLabel);
-                // gazData.add(gazType);
-                // this.getContentPane().add(gazData);
+                this.setVisible(false);
+                moreData.removeAll();       
+
+                gazType.setBounds(128, 28, 86, 20);
+                gazType.setColumns(10);
+                JLabel gazLabel = new JLabel("Gaz type");
+                moreData.add(gazLabel);
+                moreData.add(gazType);
+
+                this.setVisible(true);
+            }
+
+            // RADIATION
+            if(typeSelected == "Radiation")
+            {
+                this.setVisible(false);
+                moreData.removeAll();
+
+                radiationLevel.setBounds(128, 28, 86, 20);
+                radiationLevel.setColumns(10);
+                JLabel radLabel = new JLabel("Radiation level");
+                moreData.add(radLabel);
+                moreData.add(radiationLevel);
+
+                this.setVisible(true);
             }
         }
 
-        /* =======================================
-                DECLENCHEMENT D'UNE ALARME
-        ======================================= */
+        /* ----------------------------------
+            DECLENCHEMENT D'UNE ALARME
+        ----------------------------------*/
         if (event.getActionCommand().equals("alarm"))
         {
-            //creer nouveau AnomalyEvent
+            //creer nouveau Capteur
             typeSelected = this.alarmType.getSelectedItem().toString();
             lvl          = this.critLevel.getSelectedIndex()+1;
             loc          = this.building.getText();
-            date         = 45; //temp, recup date actuelle
+            
+            //date de declenchement
+            Date current = new Date();
 
             //FIRE ALARM
-            if(typeSelected == "Fire")
-                this.parent.alarmLaunched(typeSelected, lvl, loc, date);
-
-            //GAZ ALARM
-            else if(typeSelected == "Gaz")
+            if(typeSelected == "Fire") 
             {
-                this.parent.alarmLaunched(typeSelected, lvl, loc, date);
+                FireCaptor f = new FireCaptor(loc);
+                this.parent.alarmLaunched(f, lvl, format.format(current));
+            }
+                
+            //GAZ ALARM
+            else if(typeSelected == "Gaz") 
+            {
+                GazCaptor g  = new GazCaptor(loc);
+                String gType = this.gazType.getText();
+                this.parent.alarmLaunched(g, lvl, gType, format.format(current));
             }
 
             //RADIATION ALARM
-            else if(typeSelected == "Radiation")
+            else if(typeSelected == "Radiation") 
             {
-                this.parent.alarmLaunched(typeSelected, lvl, loc, date);
+                int radLvl = Integer.parseInt(this.radiationLevel.getText());
+                if(radLvl < 0 || radLvl > 100) {
+                    int option = JOptionPane.showConfirmDialog(this,
+                                                               "Le niveau de radiation doit être compris entre 0 et 100",
+                                                               "Attention !",
+                                                               JOptionPane.WARNING_MESSAGE);
+                }
+                else {
+                    RadiationCaptor r = new RadiationCaptor(loc);
+                    this.parent.alarmLaunched(r, lvl, radLvl, format.format(current));
+                }
+                
             }
-
-            
-            
         }
     }
 }

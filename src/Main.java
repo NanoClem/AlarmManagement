@@ -1,5 +1,4 @@
 import fr.decoopmc.GUI.*;
-import fr.decoopmc.captors.*;
 import fr.decoopmc.responders.*;
 
 
@@ -15,15 +14,14 @@ public class Main
      */
     public static void main(String[] args) throws Exception
     {
-        MainWindow w = new MainWindow("Moniteur");
+        MainWindow w = new MainWindow("AlarmManagement");
 
         /*================================================
-            TESTS CAPTEURS / MONITEUR
+            TEST MONITEURS
         ================================================*/
-        // FireCaptor mainHall = new FireCaptor("Main Hall");
-        // Monitor monitorA    = new Monitor("A");
-
-        // mainHall.addListener(monitorA);
-        // mainHall.generateAnomalyEvent(2, 44);
+        Monitor FireStation    = new Monitor("A");
+        Monitor EcologyControl = new Monitor("B");
+        w.addMonitor(FireStation);
+        w.addMonitor(EcologyControl);
     }
 }

@@ -1,7 +1,6 @@
 package fr.decoopmc.responders;
 
-import javax.swing.event.EventListenerList;
-import fr.decoopmc.events.FireEvent;
+import fr.decoopmc.events.*;
 import fr.decoopmc.interfaces.*;
 
 
@@ -14,7 +13,7 @@ import fr.decoopmc.interfaces.*;
  * @author decoopmc
  * @version 1.0
  */
-public class Monitor implements FireListener {
+public class Monitor implements FireListener, GazListener, RadiationListener {
 
   /**
    * Le type du moniteur. Permet de savoir quelles type d'alarmes il peut gerer.
@@ -23,7 +22,6 @@ public class Monitor implements FireListener {
    * @see Monitor#getType()
    */
   private String type;
-                                                           // d'ecouteur
 
   /**
    * <b>CONSTRUCTEUR DE CLASSE Monitor</b>
@@ -48,15 +46,43 @@ public class Monitor implements FireListener {
   }
 
   /**
-   * Reponse lorsqu'une alarme est declenchee
+   * Reponse lorsqu'une alarme incendie est declenchee
    * @param fire : evenement message de type incendie
    */
   @Override
   public void criticalLevelChanged(FireEvent fire) 
   {
     System.out.println("FIRE ALARM");
-    System.out.println("Level : " + fire.getCriticalLevel());
+    System.out.println("Critical level : " + fire.getCriticalLevel());
     System.out.println("Location : " + fire.getLocation());
-    System.out.println("Date " + fire.getCreationTime());
+    System.out.println("Date " + fire.getCreationTime() + "\n");
+  }
+
+  /**
+   * Reponse lorsqu'une alarme est declenchee
+   * @param gaz : evenement message de type gaz
+   */
+  @Override
+  public void criticalLevelChanged(GazEvent gaz) 
+  {
+    System.out.println("GAZ ALARM");
+    System.out.println("Critical level : " + gaz.getCriticalLevel());
+    System.out.println("Type : " + gaz.getType());
+    System.out.println("Location : " + gaz.getLocation());
+    System.out.println("Date " + gaz.getCreationTime() + "\n");
+  }
+
+  /**
+   * Reponse lorsqu'une alarme est declenchee
+   * @param gaz : evenement message de type gaz
+   */
+  @Override
+  public void criticalLevelChanged(RadiationEvent rad) 
+  {
+    System.out.println("RADIATION ALARM");
+    System.out.println("Critical level : " + rad.getCriticalLevel());
+    System.out.println("Rad Level : " + rad.getRadLevel());
+    System.out.println("Location : " + rad.getLocation());
+    System.out.println("Date " + rad.getCreationTime() + "\n");
   }
 }

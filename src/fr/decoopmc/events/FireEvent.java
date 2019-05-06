@@ -13,7 +13,7 @@ public class FireEvent extends AnomalyEvent {
   /**
    * CONSTRUCTEUR DE CLASSE FireEvent
   */
-  public FireEvent(int _idCaptor, int _criticalLevel, long _creationTime, String _location) 
+  public FireEvent(int _idCaptor, int _criticalLevel, String _creationTime, String _location) 
   {
     super(_idCaptor, _criticalLevel, _creationTime, _location);
   }

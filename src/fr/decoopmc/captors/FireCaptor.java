@@ -29,7 +29,7 @@ public class FireCaptor extends Captor
      * @param creationTime : date de creation de l'alarme
      */
     //@Override
-    public void generateAnomalyEvent(int criticalLevel, long creationTime)
+    public void generateAnomalyEvent(int criticalLevel, String creationTime)
     {
         FireEvent fire = new FireEvent(id, criticalLevel, creationTime, this.location);
 

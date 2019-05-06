@@ -13,6 +13,4 @@ import fr.decoopmc.events.FireEvent;
  */
 public interface FireListener extends AnomalyListener {
   void criticalLevelChanged(FireEvent e);
-  // void criticalLevelRaised(FireEvent e);
-  // void criticalLevelDecreased(FireEvent e);
 }

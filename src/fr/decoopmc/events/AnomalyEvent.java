@@ -30,10 +30,10 @@ abstract class AnomalyEvent {
   protected int criticalLevel;
   
   /**
-   * date de creation (en ms)
+   * date de creation
    * @see AnomalyEvent#getCreationTime()
    */
-  protected long creationTime;  
+  protected String creationTime;  
   
   /**
    * lieu d'emission de l'alarme
@@ -50,7 +50,7 @@ abstract class AnomalyEvent {
    * @param _creationTime : date de creation (en ms)
    * @param _location : lieu d'emission
    */
-  public AnomalyEvent(int _idCaptor, int _criticalLevel, long _creationTime, String _location) {
+  public AnomalyEvent(int _idCaptor, int _criticalLevel, String _creationTime, String _location) {
     idEvent++;
     this.idCaptor      = _idCaptor;
     this.criticalLevel = _criticalLevel;
@@ -59,15 +59,15 @@ abstract class AnomalyEvent {
   }
 
   //GETTERS
-  public int getIdCaptor()      {return idCaptor;}
-  public int getIdEvent()       {return idEvent;}
-  public int getCriticalLevel() {return this.criticalLevel;}
-  public long getCreationTime() {return this.creationTime;}
-  public String getLocation()   {return this.location;}
+  public int getIdCaptor()        {return idCaptor;}
+  public int getIdEvent()         {return idEvent;}
+  public int getCriticalLevel()   {return this.criticalLevel;}
+  public String getCreationTime() {return this.creationTime;}
+  public String getLocation()     {return this.location;}
 
   //SETTERS
-  public void setId(int newId)                {idEvent = newId;}
-  public void setCriticalLevel(int newLevel)  {this.criticalLevel = newLevel;}
-  public void setCreationTime(long newTime)   {this.creationTime = newTime;}
-  public void setLocation(String newLocation) {this.location = newLocation;}
+  public void setId(int newId)                  {idEvent = newId;}
+  public void setCriticalLevel(int newLevel)    {this.criticalLevel = newLevel;}
+  public void setCreationTime(String newTime)   {this.creationTime = newTime;}
+  public void setLocation(String newLocation)   {this.location = newLocation;}
 }

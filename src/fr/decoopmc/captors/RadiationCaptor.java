@@ -24,7 +24,7 @@ public class RadiationCaptor extends Captor
      * @param creationTime : date de creation de l'alarme
      */
     //@Override
-    public void generateAnomalyEvent(int criticalLevel, long creationTime, int radiationLevel)
+    public void generateAnomalyEvent(int criticalLevel, String creationTime, int radiationLevel)
     {
         RadiationEvent radiation = new RadiationEvent(id, criticalLevel, creationTime, this.location, radiationLevel);
 

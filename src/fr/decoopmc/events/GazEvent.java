@@ -21,7 +21,7 @@ public class GazEvent extends AnomalyEvent {
    *
    * @param _type : type de gaz emis (CO2, hydrogène, helium, ...)
   */
-  public GazEvent(int _idCaptor, int _criticalLevel, long _creationTime, String _location, String _type) 
+  public GazEvent(int _idCaptor, int _criticalLevel, String _creationTime, String _location, String _type) 
   {
     super(_idCaptor, _criticalLevel, _creationTime, _location);
     this.type = _type;

@@ -13,5 +13,4 @@ import fr.decoopmc.events.RadiationEvent;
 public interface RadiationListener extends AnomalyListener {
 
 	void criticalLevelChanged(RadiationEvent radiation);
-
 }
