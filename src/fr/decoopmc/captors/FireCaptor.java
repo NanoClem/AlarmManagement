@@ -28,14 +28,15 @@ public class FireCaptor extends Captor
      * @param criticalLevel : niveau d'importance de l'alarme
      * @param creationTime : date de creation de l'alarme
      */
-    //@Override
-    public void generateAnomalyEvent(int criticalLevel, String creationTime)
+    public FireEvent generateAnomalyEvent(int criticalLevel, String creationTime)
     {
         FireEvent fire = new FireEvent(id, criticalLevel, creationTime, this.location);
 
         for(FireListener fireListener : this.getFireListeners()) {
             fireListener.criticalLevelChanged(fire);
         }
+
+        return fire;
     }
 
     
@@ -75,7 +76,7 @@ public class FireCaptor extends Captor
      *
      * @return tableau de listeners de type FireListener
      */
-   public FireListener[] getFireListeners() {
-    return this.listeners.getListeners(FireListener.class);
-  }
+    public FireListener[] getFireListeners() {
+        return this.listeners.getListeners(FireListener.class);
+    }
 }

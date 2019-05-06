@@ -43,23 +43,9 @@ import javax.swing.event.EventListenerList;
    }
 
    /**
-    * <b>METHODE ABSTRAITE</b>
-    * <p>
-    * Genere un evenement de type AnomalyEvent.
-    * Permet de signaler une anomalie specifique selon le type de capteur.
-    * </p>
-    */
-   //public abstract void generateAnomalyEvent(int criticalLevel, long creationTime);
-
-   /**
-    * <b>METHODE ABSTRAITE</b>
-    * Ajoute un listener dans la liste
-    */
-   //public abstract void addListener(AnomalyListener listener);
-
-   /**
-    * <b>METHODE ABSTRAITE</b>
-    * Supprime un listener de la liste 
-    */
-   //public abstract void removeListener(AnomalyListener listener);
+     * Retourne la localisation du capteur
+     */
+    public String getLocation() {
+      return this.location;
+  }
  }

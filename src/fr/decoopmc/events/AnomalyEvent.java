@@ -3,13 +3,14 @@ package fr.decoopmc.events;
 
 
 /**
- * AnomalyEvent modelise une alarme.
- * Cette classe constitue une base parente pour differents types d'alarmes
+ * AnomalyEvent modelise une alarme. Cette classe constitue une base parente
+ * pour differents types d'alarmes
  *
  * @author decoopmc
  * @version 1.0
-*/
-abstract class AnomalyEvent {
+ * @param <abstact>
+ */
+public abstract class AnomalyEvent {
 
   /**
    * identifiant de l'event
@@ -57,6 +58,13 @@ abstract class AnomalyEvent {
     this.creationTime  = _creationTime;
     this.location      = _location;
   }
+
+  /**
+   * <b>METHODE ABSTRAITE</b>
+   * <p>Retourne sous forme de texte les informations de l'event</p>
+   */
+  public abstract String getInformations();
+    
 
   //GETTERS
   public int getIdCaptor()        {return idCaptor;}

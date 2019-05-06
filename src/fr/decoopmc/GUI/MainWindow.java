@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import fr.decoopmc.captors.*;
+import fr.decoopmc.events.*;
 import fr.decoopmc.responders.Monitor;
 
 
@@ -21,7 +24,7 @@ import fr.decoopmc.responders.Monitor;
  * @see javax.swing.JFrame;
  */
 public class MainWindow extends JFrame
-                        implements ActionListener {
+                        implements ActionListener, ListSelectionListener {
   /**
    * Taile de l'écran
    */
@@ -33,9 +36,20 @@ public class MainWindow extends JFrame
   private Dimension frameSize = new Dimension(screenSize.width*2/3, screenSize.height*2/3);
 
   /**
-   * Liste des alarmes déclenchées
+   * Liste graphique des alarmes déclenchées
    */
-  private JList<String> eventList;
+  private JList<String> graphicEventList = new JList<String>();
+
+  /**
+   * Modèle de la liste des envents.
+   * On passe par cet élément pour l'insertion dans la liste graphique
+   */
+  private DefaultListModel<String> eventListModel = new DefaultListModel<String>();
+
+  /**
+   * Liste des alarmes sous forme d'event
+   */
+  private ArrayList<AnomalyEvent> eventList = new ArrayList<>();
 
   /**
    * Panneau d'affichage des détails d'une alarme déclenchée
@@ -46,6 +60,11 @@ public class MainWindow extends JFrame
    * Archive une alarme dans la liste
    */
   private JButton archive = new JButton("Archiver");
+
+  /**
+   * Panneau d'affichage des informations de l'alarme courrante
+   */
+  private JLabel infosDisplayer = new JLabel();
 
   /**
    * Liste des moniteurs venant écouter les différentes alarmes déclenchées
@@ -123,11 +142,13 @@ public class MainWindow extends JFrame
     /*----------------------------------
         LISTE DES EVENTS
     ----------------------------------*/
-    String[] data = {"Incendie", "Gaz", "Radiation"};
-    eventList = new JList<>(data);
-    eventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    eventList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-    //JScrollPane scroller = new JScrollPane(eventList);
+    JPanel listPanel = new JPanel();
+    this.graphicEventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    this.graphicEventList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    this.graphicEventList.addListSelectionListener(this);
+    this.graphicEventList.setModel(eventListModel);
+    //JScrollPane scroller = new JScrollPane(graphicEventList);
+    listPanel.add(this.graphicEventList);
 
     /*----------------------------------
         BOUTONS
@@ -135,24 +156,24 @@ public class MainWindow extends JFrame
     JPanel buttonPanel = new JPanel(new FlowLayout());
     buttonPanel.add(details);
     buttonPanel.add(archive);
+    
 
     /*----------------------------------
         PANNEAU AFFICHAGE DES INFOS
     ----------------------------------*/
-    JPanel infosDisplayer = new JPanel();
-    JLabel temp = new JLabel("Display alarm's data here");
-    infosDisplayer.add(temp);
+    JPanel displayPanel = new JPanel();
+    displayPanel.add(this.infosDisplayer);
 
     /*----------------------------------
         LEFT PANEL
     ----------------------------------*/
-    left.add(eventList);
+    left.add(listPanel);
     left.add(buttonPanel);
 
     /*----------------------------------
         RIGHT PANEL
     ----------------------------------*/
-    right.add(infosDisplayer);
+    right.add(displayPanel);
 
     /*----------------------------------
         CONTENEUR PRINCIPAL
@@ -185,21 +206,44 @@ public class MainWindow extends JFrame
     this.monitorList.remove(m);
   }
 
-  /**
-   * Met à jour le système d'écoute des alarmes.
-   * 
-   * @param m : Moniteur 
-   */
-  public void updateMonitorListening(Monitor m) 
-  {}
-
 
 /*========================================================
                   EVENTS ET ALARMES
   ========================================================*/
 
   /**
+   * Indique les action à effectuer lorsqu'un élément
+   * est sélectionné dans la liste
+   * 
+   * @param e : objet event de sélection dans la liste
+   */
+  public void valueChanged(ListSelectionEvent e)
+  {
+    if(e.getValueIsAdjusting() == true) 
+    {
+      //AUCUN INDEX SELECTIONNNE
+      if(graphicEventList.getSelectedIndex() == -1 || this.eventListModel.size() == 0) 
+      {
+        this.infosDisplayer.setText("");   // nettoyage du panneau d'affichage
+        this.details.setEnabled(false);    // desactivation des boutons
+        this.archive.setEnabled(false);
+        //this.archive.setDisabledIcon(disabledIcon);   // icone indiquant l'etat desactive
+      }
+      //AFFICHAGE DE SES INFORMATIONS DANS LE PANNEAU
+      else {
+        String message = this.eventList.get(graphicEventList.getSelectedIndex()).getInformations();   // informations de l'evenement
+        this.infosDisplayer.setText("");
+        this.infosDisplayer.setText(message);   // affichage des informations
+        this.details.setEnabled(true);          // activation des boutons
+        this.details.setEnabled(true);
+      }
+    }
+  }
+
+
+  /**
    * Actions effectuées lorsqu'une alarme incendie est déclenchée
+   * depuis la fenêtre de simulation
    * 
    * @param fire
    * @param critLevel
@@ -207,15 +251,18 @@ public class MainWindow extends JFrame
    */
   public void alarmLaunched(FireCaptor fire, int critLevel, String date) 
   {
-    Iterator<Monitor> it = this.monitorList.iterator();
+    Iterator<Monitor> it = this.monitorList.iterator();    // iterateur de la liste des moniteurs
     while(it.hasNext()) {
       Monitor tmp = it.next();
-      if(tmp.getType() == "A") {
-        fire.addListener(tmp);
+      if(tmp.getType() == "A") {      // si le type du moniteur correspond
+        fire.addListener(tmp);        // on l'ajoute en ecoute du capteur de simulation
       }
     }
-    fire.generateAnomalyEvent(critLevel, date);
+    String message = new String("Fire alarm Level " + critLevel + ", " +  fire.getLocation());      // message a afficher dans la liste graphique
+    this.eventListModel.addElement(message);                                                        // ajout de l'élément au model
+    this.eventList.add(fire.generateAnomalyEvent(critLevel, date));                                 // generation de l'alarme et ajout à la liste des events
   }
+
 
   /**
    * Actions effectuées lorsqu'une alarme anti-gaz est déclenchée
@@ -234,8 +281,11 @@ public class MainWindow extends JFrame
         gaz.addListener(tmp);
       }
     }
-    gaz.generateAnomalyEvent(critLevel, date, type);
+    String message = new String("Gaz alarm Level " + critLevel + ", " +  gaz.getLocation());
+    this.eventListModel.addElement(message);
+    this.eventList.add(gaz.generateAnomalyEvent(critLevel, date, type));   
   }
+
 
   /**
    * Actions effectuées lorsqu'une alarme anti-radiation est déclenchée
@@ -247,16 +297,18 @@ public class MainWindow extends JFrame
    */
   public void alarmLaunched(RadiationCaptor rad, int critLevel, int radLevel, String date) 
   {
-    Iterator<Monitor> it = this.monitorList.iterator();
+    Iterator<Monitor> it = this.monitorList.iterator();   
     while(it.hasNext()) {
       Monitor tmp = it.next();
-      if(tmp.getType() == "B") {
+      if(tmp.getType() == "B") {                          
         rad.addListener(tmp);
       }
     }
-
-    rad.generateAnomalyEvent(critLevel, date, radLevel);
+    String message = new String("Radiation alarm Level " + critLevel + ", " + rad.getLocation());
+    this.eventListModel.addElement(message);
+    this.eventList.add(rad.generateAnomalyEvent(critLevel, date, radLevel));
   }
+
 
 /**
  * Indique les actions a effectuer au clic d'un element du menu
@@ -265,11 +317,11 @@ public class MainWindow extends JFrame
  */
   public void actionPerformed(ActionEvent event)
   {
-    // CLIC SUR "launch"
+    // CLIC SUR SOUS MENU "launch"
     if(event.getActionCommand().equals("launch"))
     {
       new SimulationFrame(this, new Dimension(frameSize.width/4, frameSize.height/2), "Alarm Simulator");
-    }    
+    }
 
     // CLIC SUR "Quitter"
     if (event.getActionCommand().equals("quit"))

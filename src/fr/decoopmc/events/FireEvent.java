@@ -17,4 +17,18 @@ public class FireEvent extends AnomalyEvent {
   {
     super(_idCaptor, _criticalLevel, _creationTime, _location);
   }
+
+  /**
+   * 
+   */
+  @Override
+  public String getInformations()
+  {
+    String ret = "ID Captor : "        + this.idCaptor + "\n"
+                 + "Critical level : " + this.criticalLevel + "\n"
+                 + "Location : "       + this.location + "\n"
+                 + "Date : "           + this.creationTime;
+                 
+    return ret;
+  }
 }

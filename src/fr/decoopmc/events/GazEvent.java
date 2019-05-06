@@ -29,11 +29,27 @@ public class GazEvent extends AnomalyEvent {
 
   /**
    * 
+   * @return informations de l'event
+   */
+  @Override
+  public String getInformations()
+  {
+    String ret = "ID Captor : "        + this.idCaptor + "\n"
+                 + "Critical level : " + this.criticalLevel + "\n"
+                 + "Gaz type : "       + this.type + "\n"
+                 + "Location : "       + this.location + "\n"
+                 + "Date : "           + this.creationTime;
+    return ret;
+  }
+
+  /**
+   * Retourne le type de gaz émit
+   * @return type du gaz
    */
   public String getType() {return this.type;}
 
   /**
-   * 
+   * Modifie le type de gaz émit
    * @param newType
    */
   public void setType(String newType) {this.type = newType;}

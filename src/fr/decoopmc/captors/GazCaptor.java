@@ -24,13 +24,15 @@ public class GazCaptor extends Captor
      * @param creationTime : date de creation de l'alarme
      */
     //@Override
-    public void generateAnomalyEvent(int criticalLevel, String creationTime, String gazType)
+    public GazEvent generateAnomalyEvent(int criticalLevel, String creationTime, String gazType)
     {
         GazEvent gaz = new GazEvent(id, criticalLevel, creationTime, this.location, gazType);
-
+        
         for(GazListener gazListener : this.getGazListeners()) {
             gazListener.criticalLevelChanged(gaz);
         }
+
+        return gaz;
     }
 
     

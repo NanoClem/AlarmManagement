@@ -25,15 +25,32 @@ public class RadiationEvent extends AnomalyEvent {
     this.radLevel = _radLevel;
   }
 
-
   /**
    * 
+   * @return 
+   */
+  @Override
+  public String getInformations()
+  {
+    String ret = "ID Captor : "         + this.idCaptor + "\n"
+                 + "Critical level : "  + this.criticalLevel + "\n"
+                 + "Radiation level : " + this.radLevel + "\n"
+                 + "Location : "        + this.location + "\n"
+                 + "Date : "            + this.creationTime;
+    return ret;
+  }
+
+  /**
+   * Retourne le niveau de radiation
+   * 
+   * @return niveau de radiation de l'event
    */
   public int getRadLevel()  {return this.radLevel;}
 
   /**
+   * Modifie le niveau de radiation
    * 
-   * @param newLevel
+   * @param newLevel : nouveau niveau
    */
   public void setRadLevel(int newLevel) {this.radLevel = newLevel;}
 }
