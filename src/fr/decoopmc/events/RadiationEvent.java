@@ -29,14 +29,16 @@ public class RadiationEvent extends AnomalyEvent {
    * 
    * @return 
    */
-  @Override
   public String getInformations()
   {
-    String ret = "ID Captor : "         + this.idCaptor + "\n"
-                 + "Critical level : "  + this.criticalLevel + "\n"
-                 + "Radiation level : " + this.radLevel + "\n"
-                 + "Location : "        + this.location + "\n"
-                 + "Date : "            + this.creationTime;
+    String ret = "<html>"
+                 + "<b>ID Captor :</b> "         + this.idCaptor + "<br/>"
+                 + "<b>Critical level</b> : "    + this.criticalLevel + "<br/>"
+                 + "<b>Radiation level</b> : "   + this.radLevel + "<br/>"
+                 + "<b>Location :</b> "          + this.location + "<br/>"
+                 + "<b>Date :</b> "              + this.creationTime + "<br/>"
+                 + "</html>";
+
     return ret;
   }
 

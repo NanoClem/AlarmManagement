@@ -36,7 +36,7 @@ public class MainWindow extends JFrame
   private Dimension frameSize = new Dimension(screenSize.width*2/3, screenSize.height*2/3);
 
   /**
-   * Liste graphique des alarmes déclenchées
+   * Liste graphique des alarmes déclenchées.
    */
   private JList<String> graphicEventList = new JList<String>();
 
@@ -47,14 +47,9 @@ public class MainWindow extends JFrame
   private DefaultListModel<String> eventListModel = new DefaultListModel<String>();
 
   /**
-   * Liste des alarmes sous forme d'event
+   * Liste des alarmes sous forme d'objet Event
    */
   private ArrayList<AnomalyEvent> eventList = new ArrayList<>();
-
-  /**
-   * Panneau d'affichage des détails d'une alarme déclenchée
-   */
-  private JButton details = new JButton("Details");
 
   /**
    * Archive une alarme dans la liste
@@ -64,7 +59,7 @@ public class MainWindow extends JFrame
   /**
    * Panneau d'affichage des informations de l'alarme courrante
    */
-  private JLabel infosDisplayer = new JLabel();
+  private JTextPane infosDisplayer = new JTextPane();
 
   /**
    * Liste des moniteurs venant écouter les différentes alarmes déclenchées
@@ -81,7 +76,7 @@ public class MainWindow extends JFrame
   {
     super(title);
     setSize(frameSize);
-    setResizable(true);
+    setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setAlwaysOnTop(false);
@@ -143,25 +138,34 @@ public class MainWindow extends JFrame
         LISTE DES EVENTS
     ----------------------------------*/
     JPanel listPanel = new JPanel();
+    //LISTE GRAPHIQUE
     this.graphicEventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    this.graphicEventList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+    this.graphicEventList.setLayoutOrientation(JList.VERTICAL);
     this.graphicEventList.addListSelectionListener(this);
     this.graphicEventList.setModel(eventListModel);
-    //JScrollPane scroller = new JScrollPane(graphicEventList);
-    listPanel.add(this.graphicEventList);
+    //SCROLLER
+    JScrollPane scroller = new JScrollPane(graphicEventList);
+    scroller.setPreferredSize(new Dimension(350, 180));
+
+    listPanel.add(scroller);
 
     /*----------------------------------
         BOUTONS
     ----------------------------------*/
     JPanel buttonPanel = new JPanel(new FlowLayout());
-    buttonPanel.add(details);
     buttonPanel.add(archive);
-    
+    this.archive.setEnabled(false);
+    //ACTION ARCHIVAGE
+    this.archive.setActionCommand("archive");
+    this.archive.addActionListener(this);
+
 
     /*----------------------------------
         PANNEAU AFFICHAGE DES INFOS
     ----------------------------------*/
     JPanel displayPanel = new JPanel();
+    this.infosDisplayer.setPreferredSize(new Dimension(350, 180));
+    this.infosDisplayer.setContentType("text/html");
     displayPanel.add(this.infosDisplayer);
 
     /*----------------------------------
@@ -219,23 +223,21 @@ public class MainWindow extends JFrame
    */
   public void valueChanged(ListSelectionEvent e)
   {
-    if(e.getValueIsAdjusting() == true) 
+    if(e.getValueIsAdjusting() == false) 
     {
       //AUCUN INDEX SELECTIONNNE
       if(graphicEventList.getSelectedIndex() == -1 || this.eventListModel.size() == 0) 
       {
         this.infosDisplayer.setText("");   // nettoyage du panneau d'affichage
-        this.details.setEnabled(false);    // desactivation des boutons
-        this.archive.setEnabled(false);
+        this.archive.setEnabled(false);    // desactivation des boutons
         //this.archive.setDisabledIcon(disabledIcon);   // icone indiquant l'etat desactive
       }
       //AFFICHAGE DE SES INFORMATIONS DANS LE PANNEAU
       else {
         String message = this.eventList.get(graphicEventList.getSelectedIndex()).getInformations();   // informations de l'evenement
         this.infosDisplayer.setText("");
-        this.infosDisplayer.setText(message);   // affichage des informations
-        this.details.setEnabled(true);          // activation des boutons
-        this.details.setEnabled(true);
+        this.infosDisplayer.setText(message);   // affichage des informations       
+        this.archive.setEnabled(true);          // activation des boutons
       }
     }
   }
@@ -317,13 +319,17 @@ public class MainWindow extends JFrame
  */
   public void actionPerformed(ActionEvent event)
   {
-    // CLIC SUR SOUS MENU "launch"
-    if(event.getActionCommand().equals("launch"))
+    /*----------------------------------
+        CLIC SOUS MENU "launch"
+    ----------------------------------*/
+    if(event.getActionCommand().equals("launch")) 
     {
       new SimulationFrame(this, new Dimension(frameSize.width/4, frameSize.height/2), "Alarm Simulator");
     }
 
-    // CLIC SUR "Quitter"
+    /*----------------------------------
+        CLIC SOUS MENU "Quitter"
+    ----------------------------------*/
     if (event.getActionCommand().equals("quit"))
     {
       JOptionPane pane = new JOptionPane();
@@ -333,6 +339,14 @@ public class MainWindow extends JFrame
                 pane.YES_NO_OPTION,                                // option YES / NO
                 pane.WARNING_MESSAGE) == JOptionPane.YES_OPTION )  // si YES
         System.exit(0);                                            // on quitte le programme
+    }
+
+    /*----------------------------------
+        CLIC BOUTON "archiver"
+    ----------------------------------*/
+    if(event.getActionCommand().equals("archive")) 
+    {
+      this.eventListModel.remove(graphicEventList.getSelectedIndex());    // Suppression de l'event selectionne
     }
   }
 }

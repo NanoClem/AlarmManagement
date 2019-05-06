@@ -31,14 +31,15 @@ public class GazEvent extends AnomalyEvent {
    * 
    * @return informations de l'event
    */
-  @Override
   public String getInformations()
   {
-    String ret = "ID Captor : "        + this.idCaptor + "\n"
-                 + "Critical level : " + this.criticalLevel + "\n"
-                 + "Gaz type : "       + this.type + "\n"
-                 + "Location : "       + this.location + "\n"
-                 + "Date : "           + this.creationTime;
+    String ret = "<html>"
+                 + "<b>ID Captor :</b> "         + this.idCaptor + "<br/>"
+                 + "<b>Critical level</b> : "    + this.criticalLevel + "<br/>"
+                 + "<b>Gaz type :</b> "          + this.type + "<br/>"
+                 + "<b>Location :</b> "          + this.location + "<br/>"
+                 + "<b>Date :</b> "              + this.creationTime + "<br/>"
+                 + "</html>";
     return ret;
   }
 
