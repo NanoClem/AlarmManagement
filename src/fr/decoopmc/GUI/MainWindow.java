@@ -88,16 +88,13 @@ public class MainWindow extends JFrame
     JMenuBar menuBar = new JMenuBar();
     this.setJMenuBar(menuBar);
 
-    // ELEMENTS DU MENU
-    JMenu simu = new JMenu("Simu Alarm");
-    menuBar.add(simu);
+    // MENU
+    JMenu menu = new JMenu("Utils");
+    menuBar.add(menu);
 
     // SOUS MENU
-    JMenuItem launch = new JMenuItem("Simuler une alarme");
-    simu.add(launch);
-    simu.add(new JSeparator());                          // ligne séparatrice
     JMenuItem quit = new JMenuItem("Quitter");
-    simu.add(quit);
+    menu.add(quit);
 
     /*----------------------------------
         CONTENU
@@ -107,8 +104,6 @@ public class MainWindow extends JFrame
     /*----------------------------------
       ACTIONS DE CLICS
     ----------------------------------*/
-    launch.setActionCommand("launch");
-    launch.addActionListener(this);
     quit.setActionCommand("quit");
     quit.addActionListener(this);
     
@@ -230,7 +225,6 @@ public class MainWindow extends JFrame
       {
         this.infosDisplayer.setText("");   // nettoyage du panneau d'affichage
         this.archive.setEnabled(false);    // desactivation des boutons
-        //this.archive.setDisabledIcon(disabledIcon);   // icone indiquant l'etat desactive
       }
       //AFFICHAGE DE SES INFORMATIONS DANS LE PANNEAU
       else {
@@ -244,8 +238,7 @@ public class MainWindow extends JFrame
 
 
   /**
-   * Actions effectuées lorsqu'une alarme incendie est déclenchée
-   * depuis la fenêtre de simulation
+   * <b>Actions effectuées lorsqu'une alarme incendie est déclenchée</b>
    * 
    * @param fire
    * @param critLevel
@@ -254,15 +247,16 @@ public class MainWindow extends JFrame
   public void alarmLaunched(FireCaptor fire, int critLevel, String date) 
   {
     Iterator<Monitor> it = this.monitorList.iterator();    // iterateur de la liste des moniteurs
-    while(it.hasNext()) {
+    while(it.hasNext()) 
+    {
       Monitor tmp = it.next();
-      if(tmp.getType() == "A") {      // si le type du moniteur correspond
-        fire.addListener(tmp);        // on l'ajoute en ecoute du capteur de simulation
+      if(tmp.getType() == "A") {                                                                        // si le type du moniteur correspond
+        fire.addListener(tmp);                                                                          // on l'ajoute en ecoute du capteur de simulation
+        String message = new String("Fire alarm Level " + critLevel + ", " +  fire.getLocation());      // message a afficher dans la liste graphique
+        this.eventListModel.addElement(message);                                                        // ajout de l'élément au model
+        this.eventList.add(fire.generateAnomalyEvent(critLevel, date));                                 // generation de l'alarme et ajout à la liste des events
       }
     }
-    String message = new String("Fire alarm Level " + critLevel + ", " +  fire.getLocation());      // message a afficher dans la liste graphique
-    this.eventListModel.addElement(message);                                                        // ajout de l'élément au model
-    this.eventList.add(fire.generateAnomalyEvent(critLevel, date));                                 // generation de l'alarme et ajout à la liste des events
   }
 
 
@@ -277,15 +271,17 @@ public class MainWindow extends JFrame
   public void alarmLaunched(GazCaptor gaz, int critLevel, String type, String date) 
   {
     Iterator<Monitor> it = this.monitorList.iterator();
-    while(it.hasNext()) {
+    while(it.hasNext()) 
+    {
       Monitor tmp = it.next();
       if(tmp.getType() == "A" || tmp.getType() == "B") {
+        String message = new String("Gaz alarm Level " + critLevel + ", " +  gaz.getLocation());
+        this.eventListModel.addElement(message);
+        this.eventList.add(gaz.generateAnomalyEvent(critLevel, date, type));
         gaz.addListener(tmp);
       }
     }
-    String message = new String("Gaz alarm Level " + critLevel + ", " +  gaz.getLocation());
-    this.eventListModel.addElement(message);
-    this.eventList.add(gaz.generateAnomalyEvent(critLevel, date, type));   
+       
   }
 
 
@@ -300,15 +296,16 @@ public class MainWindow extends JFrame
   public void alarmLaunched(RadiationCaptor rad, int critLevel, int radLevel, String date) 
   {
     Iterator<Monitor> it = this.monitorList.iterator();   
-    while(it.hasNext()) {
+    while(it.hasNext()) 
+    {
       Monitor tmp = it.next();
-      if(tmp.getType() == "B") {                          
+      if(tmp.getType() == "B") {   
+        String message = new String("Radiation alarm Level " + critLevel + ", " + rad.getLocation());
+        this.eventListModel.addElement(message);
+        this.eventList.add(rad.generateAnomalyEvent(critLevel, date, radLevel));                       
         rad.addListener(tmp);
       }
     }
-    String message = new String("Radiation alarm Level " + critLevel + ", " + rad.getLocation());
-    this.eventListModel.addElement(message);
-    this.eventList.add(rad.generateAnomalyEvent(critLevel, date, radLevel));
   }
 
 
@@ -322,10 +319,11 @@ public class MainWindow extends JFrame
     /*----------------------------------
         CLIC SOUS MENU "launch"
     ----------------------------------*/
-    if(event.getActionCommand().equals("launch")) 
-    {
-      new SimulationFrame(this, new Dimension(frameSize.width/4, frameSize.height/2), "Alarm Simulator");
-    }
+    // if(event.getActionCommand().equals("launch")) 
+    // {
+    //   // Creer une nouvelle fenêtre en dehors de celle ci
+    //   new SimulationFrame(this, new Dimension(frameSize.width/4, frameSize.height/2), "Alarm Simulator");
+    // }
 
     /*----------------------------------
         CLIC SOUS MENU "Quitter"

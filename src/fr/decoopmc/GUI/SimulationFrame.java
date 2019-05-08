@@ -17,7 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 
 
@@ -34,9 +36,12 @@ public class SimulationFrame extends JFrame
                              implements ActionListener {
 
     /**
-     * Fenêtre parente de la fenêtre de simulation
+     * <b>Liste des parents de la simulation.</b>
+     * <p>
+     * Permet de diffuser les signaux d'alarmes entre les fenêtres parentes présentes dans la liste.
+     * </p>
      */
-    private MainWindow parent;
+    private ArrayList<MainWindow> parents = new ArrayList<MainWindow>();
 
     /**
      * Bouton declencheur de l'alarme.
@@ -82,10 +87,9 @@ public class SimulationFrame extends JFrame
      * @param size : taille de la fenêtre
      * @param title
      */
-    public SimulationFrame(MainWindow _parent, Dimension size, String title)
+    public SimulationFrame(Dimension size, String title)
     {
         super(title);
-        this.parent = _parent;
 
         this.setSize(size);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
@@ -103,9 +107,9 @@ public class SimulationFrame extends JFrame
      */
     public void initForm()
     {
-        /* =======================================
+        /* ---------------------------------------
                     LOCALISATION
-        ======================================= */
+        --------------------------------------- */
         JPanel locPanel = new JPanel();
         JLabel locLabel = new JLabel("Location :");
         building.setBounds(128, 28, 86, 20);
@@ -113,9 +117,9 @@ public class SimulationFrame extends JFrame
         locPanel.add(locLabel);
         locPanel.add(building);
 
-        /* =======================================
+        /* ---------------------------------------
                     NIVEAU D'IMPORTANCE
-        ======================================= */
+        --------------------------------------- */
         JPanel critPanel = new JPanel();
         JLabel critLabel = new JLabel("Critical level :");
         Integer[] lvls = {1,2,3};
@@ -126,9 +130,9 @@ public class SimulationFrame extends JFrame
         critPanel.add(critLabel);
         critPanel.add(critLevel);
 
-        /* =======================================
+        /* ---------------------------------------
                      TYPE D'ALARME
-        ======================================= */
+        --------------------------------------- */
         JPanel alarmPanel = new JPanel();
         JLabel alarmLabel = new JLabel("Alarm Type :");
         String[] types = {"Fire", "Gaz", "Radiation"};      // UPGRADE : lire les types depuis XML ?
@@ -139,30 +143,54 @@ public class SimulationFrame extends JFrame
         alarmPanel.add(alarmLabel);
         alarmPanel.add(alarmType);
         
-        /* =======================================
-                     DECLENCHER
-        ======================================= */
+        /* ---------------------------------------
+                BOUTON DECLENCHEUR
+        --------------------------------------- */
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(launcher);
     
-
-        /* =======================================
+        /* ---------------------------------------
                     PANEL PRINCIPAL
-        ======================================= */
+        --------------------------------------- */
         this.getContentPane().add(locPanel);
         this.getContentPane().add(critPanel);
         this.getContentPane().add(alarmPanel);
         this.getContentPane().add(moreData);
         this.getContentPane().add(buttonPanel);
 
-        /* =======================================
+        /* ---------------------------------------
                     EVENEMENTS
-        ======================================= */
+        --------------------------------------- */
         launcher.setActionCommand("alarm");             // clic sur le bouton de declenchement de l'alarme
         launcher.addActionListener(this);
         alarmType.setActionCommand("typeSelected");     // selection d'un type d'alarme
         alarmType.addActionListener(this);
     }
+
+
+    /*=======================================
+        TRAITEMENT LISTE DES PARENTS
+    =======================================*/
+
+    /**
+     * Ajoute une nouvelle fenêtre de moniteur dans 
+     * la liste des parents.
+     * 
+     * @param p : fenêtre parente à ajouter
+     */
+    public void addParent(MainWindow p) {
+        this.parents.add(p);
+    }
+
+    /**
+     * Retire un élément de la liste des parents
+     * 
+     * @param p
+     */
+    public void removeParent(MainWindow p) {
+        this.parents.remove(p);
+    }
+
 
     /**
      * Produit une réponse aux actions écoutées 
@@ -176,7 +204,6 @@ public class SimulationFrame extends JFrame
         int lvl             = 0;                                                // niveau critique
         String loc          = "";                                               // localisation
         DateFormat format   = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");      // format de la date de declenchement
-
 
         /* ----------------------------------
             SELECTION D'UN TYPE D'ALARME
@@ -229,7 +256,6 @@ public class SimulationFrame extends JFrame
         ----------------------------------*/
         if (event.getActionCommand().equals("alarm"))
         {
-            //creer nouveau Capteur
             typeSelected = this.alarmType.getSelectedItem().toString();
             lvl          = this.critLevel.getSelectedIndex()+1;
             loc          = this.building.getText();
@@ -241,7 +267,10 @@ public class SimulationFrame extends JFrame
             if(typeSelected == "Fire") 
             {
                 FireCaptor f = new FireCaptor(loc);
-                this.parent.alarmLaunched(f, lvl, format.format(current));
+                Iterator<MainWindow> it = this.parents.iterator();
+                while(it.hasNext()) {
+                    it.next().alarmLaunched(f, lvl, format.format(current));
+                }
             }
                 
             //GAZ ALARM
@@ -249,7 +278,10 @@ public class SimulationFrame extends JFrame
             {
                 GazCaptor g  = new GazCaptor(loc);
                 String gType = this.gazType.getText();
-                this.parent.alarmLaunched(g, lvl, gType, format.format(current));
+                Iterator<MainWindow> it = this.parents.iterator();
+                while(it.hasNext()) {
+                    it.next().alarmLaunched(g, lvl, gType, format.format(current));
+                }
             }
 
             //RADIATION ALARM
@@ -264,9 +296,11 @@ public class SimulationFrame extends JFrame
                 }
                 else {
                     RadiationCaptor r = new RadiationCaptor(loc);
-                    this.parent.alarmLaunched(r, lvl, radLvl, format.format(current));
+                    Iterator<MainWindow> it = this.parents.iterator();
+                    while(it.hasNext()) {
+                        it.next().alarmLaunched(r, lvl, radLvl, format.format(current));
+                    }
                 }
-                
             }
         }
     }
