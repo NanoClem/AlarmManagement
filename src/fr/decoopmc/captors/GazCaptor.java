@@ -29,7 +29,7 @@ public class GazCaptor extends Captor
         GazEvent gaz = new GazEvent(id, criticalLevel, creationTime, this.location, gazType);
         
         for(GazListener gazListener : this.getGazListeners()) {
-            gazListener.criticalLevelChanged(gaz);
+            gazListener.alarmLaunched(gaz);
         }
 
         return gaz;

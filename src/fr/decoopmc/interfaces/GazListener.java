@@ -12,5 +12,10 @@ import fr.decoopmc.events.GazEvent;
  * @see AnomalyListener
 */
 public interface GazListener extends AnomalyListener {
-    void criticalLevelChanged(GazEvent radiation);
+
+    /**
+     * Alarme déclenchée
+     * @param e : événement "gaz"
+     */
+    void alarmLaunched(GazEvent radiation);
 }

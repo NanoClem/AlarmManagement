@@ -33,7 +33,7 @@ public class FireCaptor extends Captor
         FireEvent fire = new FireEvent(id, criticalLevel, creationTime, this.location);
 
         for(FireListener fireListener : this.getFireListeners()) {
-            fireListener.criticalLevelChanged(fire);
+            fireListener.alarmLaunched(fire);
         }
 
         return fire;

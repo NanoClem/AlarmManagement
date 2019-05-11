@@ -12,5 +12,10 @@ import fr.decoopmc.events.FireEvent;
  * @see AnomalyListener
  */
 public interface FireListener extends AnomalyListener {
-  void criticalLevelChanged(FireEvent e);
+
+  /**
+   * Alarme déclenchée
+   * @param e : événement "incendie"
+   */
+  void alarmLaunched(FireEvent e);
 }

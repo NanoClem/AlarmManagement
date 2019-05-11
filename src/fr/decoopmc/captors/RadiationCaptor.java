@@ -28,7 +28,7 @@ public class RadiationCaptor extends Captor
         RadiationEvent radiation = new RadiationEvent(id, criticalLevel, creationTime, this.location, radiationLevel);
 
         for(RadiationListener radiationListener : this.getRadiationListeners()){
-            radiationListener.criticalLevelChanged(radiation);
+            radiationListener.alarmLaunched(radiation);
         }
 
         return radiation;

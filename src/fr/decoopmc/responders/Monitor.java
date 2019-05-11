@@ -50,7 +50,7 @@ public class Monitor implements FireListener, GazListener, RadiationListener {
    * @param fire : evenement message de type incendie
    */
   @Override
-  public void criticalLevelChanged(FireEvent fire) 
+  public void alarmLaunched(FireEvent fire) 
   {
     System.out.println("FIRE ALARM");
     System.out.println("Critical level : " + fire.getCriticalLevel());
@@ -63,7 +63,7 @@ public class Monitor implements FireListener, GazListener, RadiationListener {
    * @param gaz : evenement message de type gaz
    */
   @Override
-  public void criticalLevelChanged(GazEvent gaz) 
+  public void alarmLaunched(GazEvent gaz) 
   {
     System.out.println("GAZ ALARM");
     System.out.println("Critical level : " + gaz.getCriticalLevel());
@@ -77,7 +77,7 @@ public class Monitor implements FireListener, GazListener, RadiationListener {
    * @param gaz : evenement message de type gaz
    */
   @Override
-  public void criticalLevelChanged(RadiationEvent rad) 
+  public void alarmLaunched(RadiationEvent rad) 
   {
     System.out.println("RADIATION ALARM");
     System.out.println("Critical level : " + rad.getCriticalLevel());
