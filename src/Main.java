@@ -6,7 +6,7 @@ import fr.decoopmc.responders.*;
 
 
 /**
- * 
+ * <b>Classe Main</b>
  */
 public class Main
 {
@@ -51,7 +51,7 @@ public class Main
         w1.addMonitor(FireStation);
         w2.addMonitor(EcologyControl);
         //AJOUT DES MONITEURS GRAPHIQUES A LA SIMULATION
-        simu.addParent(w1);
-        simu.addParent(w2);
+        simu.addChild(w1);
+        simu.addChild(w2);
     }
 }

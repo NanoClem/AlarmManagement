@@ -36,12 +36,12 @@ public class SimulationFrame extends JFrame
                              implements ActionListener {
 
     /**
-     * <b>Liste des parents de la simulation.</b>
+     * <b>Liste des enfants concernés par la simulation.</b>
      * <p>
-     * Permet de diffuser les signaux d'alarmes entre les fenêtres parentes présentes dans la liste.
+     * Permet de diffuser les signaux d'alarmes entre les fenêtres enfants présentes dans la liste.
      * </p>
      */
-    private ArrayList<MainWindow> parents = new ArrayList<MainWindow>();
+    private ArrayList<MainWindow> childs = new ArrayList<MainWindow>();
 
     /**
      * Bouton declencheur de l'alarme.
@@ -169,28 +169,32 @@ public class SimulationFrame extends JFrame
 
 
     /*=======================================
-        TRAITEMENT LISTE DES PARENTS
+        TRAITEMENT LISTE DES ENFANTS
     =======================================*/
 
     /**
      * Ajoute une nouvelle fenêtre de moniteur dans 
-     * la liste des parents.
+     * la liste des enfants.
      * 
-     * @param p : fenêtre parente à ajouter
+     * @param p : fenêtre enfant à ajouter
      */
-    public void addParent(MainWindow p) {
-        this.parents.add(p);
+    public void addChild(MainWindow child) {
+        this.childs.add(child);
     }
 
     /**
-     * Retire un élément de la liste des parents
+     * Retire un élément de la liste des enfants
      * 
      * @param p
      */
-    public void removeParent(MainWindow p) {
-        this.parents.remove(p);
+    public void removeChild(MainWindow child) {
+        this.childs.remove(child);
     }
 
+
+    /*=======================================
+        TRAITEMENT DES ACTIONS
+    =======================================*/
 
     /**
      * Produit une réponse aux actions écoutées 
@@ -267,7 +271,7 @@ public class SimulationFrame extends JFrame
             if(typeSelected == "Fire") 
             {
                 FireCaptor f = new FireCaptor(loc);
-                Iterator<MainWindow> it = this.parents.iterator();
+                Iterator<MainWindow> it = this.childs.iterator();
                 while(it.hasNext()) {
                     it.next().alarmLaunched(f, lvl, format.format(current));
                 }
@@ -278,7 +282,7 @@ public class SimulationFrame extends JFrame
             {
                 GazCaptor g  = new GazCaptor(loc);
                 String gType = this.gazType.getText();
-                Iterator<MainWindow> it = this.parents.iterator();
+                Iterator<MainWindow> it = this.childs.iterator();
                 while(it.hasNext()) {
                     it.next().alarmLaunched(g, lvl, gType, format.format(current));
                 }
@@ -296,7 +300,7 @@ public class SimulationFrame extends JFrame
                 }
                 else {
                     RadiationCaptor r = new RadiationCaptor(loc);
-                    Iterator<MainWindow> it = this.parents.iterator();
+                    Iterator<MainWindow> it = this.childs.iterator();
                     while(it.hasNext()) {
                         it.next().alarmLaunched(r, lvl, radLvl, format.format(current));
                     }
