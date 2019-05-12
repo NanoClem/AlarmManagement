@@ -37,7 +37,7 @@ public class Main
             FENETRE GRAPHIQUE DES MONITEURS
         ------------------------------------------------*/
         MonitorWindow w1 = new MonitorWindow("Caserne");
-        //MainWindow w2 = new MainWindow("Second");
+        //MainWindow w2 = new MainWindow("Ecology");
 
         /*------------------------------------------------
             FENETRE DE SIMULATION DES ALARMES

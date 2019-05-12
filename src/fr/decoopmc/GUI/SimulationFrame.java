@@ -5,6 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -95,9 +98,42 @@ public class SimulationFrame extends JFrame
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
         this.setResizable(false);
         this.setAlwaysOnTop(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        this.initMenu();
         this.initForm();
         this.setVisible(true);
+    }
+
+
+    /**
+     * Construction de la barre de menu et de ses éléments
+     */
+    public void initMenu()
+    {
+        /*----------------------------------
+            BARRE DE MENU
+        ----------------------------------*/
+        JMenuBar menuBar = new JMenuBar();
+        this.setJMenuBar(menuBar);
+
+        /*----------------------------------
+            MENU
+        ----------------------------------*/
+        JMenu menu = new JMenu("Utils");
+        menuBar.add(menu);
+
+        /*----------------------------------
+            SOUS-MENU
+        ----------------------------------*/
+        JMenuItem quit = new JMenuItem("Quitter");
+        menu.add(quit);
+
+        /*----------------------------------
+            ACTIONS
+        ----------------------------------*/
+        quit.setActionCommand("quit");
+        quit.addActionListener(this);
     }
 
     
@@ -306,6 +342,20 @@ public class SimulationFrame extends JFrame
                     }
                 }
             }
+        }
+
+        /* ----------------------------------
+            ACTION LORSQUE L'ON CLIQUE SUR "Quitter"
+        ----------------------------------*/
+        if ( event.getActionCommand().equals("quit") )                     // si on sélectionne "Quitter"
+        {
+            JOptionPane pane = new JOptionPane();
+            if ( pane.showConfirmDialog(this,                              // on demande une confirmation en rapport
+                        "Voulez vous vraiment quitter ?",                  // avec la fenêtre qui a déclenché l'action (this)
+                        "Attention",
+                        pane.YES_NO_OPTION,
+                        pane.WARNING_MESSAGE) == JOptionPane.YES_OPTION )  // si on a confirmé
+                System.exit(0);                                            // on quitte le programme
         }
     }
 }

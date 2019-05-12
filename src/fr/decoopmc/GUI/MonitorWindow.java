@@ -24,7 +24,7 @@ import fr.decoopmc.responders.Monitor;
  * @see javax.swing.JFrame;
  */
 public class MonitorWindow extends JFrame
-                        implements ActionListener, ListSelectionListener {
+                           implements ActionListener, ListSelectionListener {
   /**
    * Taile de l'écran
    */
@@ -41,7 +41,7 @@ public class MonitorWindow extends JFrame
   private JList<String> graphicEventList = new JList<String>();
 
   /**
-   * Modèle de la liste des envents.
+   * Modèle de la liste des events.
    * On passe par cet élément pour l'insertion dans la liste graphique
    */
   private DefaultListModel<String> eventListModel = new DefaultListModel<String>();
@@ -77,36 +77,15 @@ public class MonitorWindow extends JFrame
     super(title);
     setSize(frameSize);
     setResizable(false);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
     setAlwaysOnTop(false);
     this.getContentPane().setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
-
-    /*----------------------------------
-        BARRE DE MENU
-    ----------------------------------*/
-    JMenuBar menuBar = new JMenuBar();
-    this.setJMenuBar(menuBar);
-
-    // MENU
-    JMenu menu = new JMenu("Utils");
-    menuBar.add(menu);
-
-    // SOUS MENU
-    JMenuItem quit = new JMenuItem("Quitter");
-    menu.add(quit);
 
     /*----------------------------------
         CONTENU
     ----------------------------------*/
     this.initContent();
 
-    /*----------------------------------
-      ACTIONS DE CLICS
-    ----------------------------------*/
-    quit.setActionCommand("quit");
-    quit.addActionListener(this);
-    
 
     this.pack();
     setVisible(true);
@@ -316,29 +295,6 @@ public class MonitorWindow extends JFrame
  */
   public void actionPerformed(ActionEvent event)
   {
-    /*----------------------------------
-        CLIC SOUS MENU "launch"
-    ----------------------------------*/
-    // if(event.getActionCommand().equals("launch")) 
-    // {
-    //   // Creer une nouvelle fenêtre en dehors de celle ci
-    //   new SimulationFrame(this, new Dimension(frameSize.width/4, frameSize.height/2), "Alarm Simulator");
-    // }
-
-    /*----------------------------------
-        CLIC SOUS MENU "Quitter"
-    ----------------------------------*/
-    if (event.getActionCommand().equals("quit"))
-    {
-      JOptionPane pane = new JOptionPane();
-      if ( pane.showConfirmDialog(this,                            // on demande une confirmation en rapport
-                "Voulez vous vraiment quitter ?",                  // avec la fenêtre qui a déclenché l'action (this)
-                "Attention",
-                pane.YES_NO_OPTION,                                // option YES / NO
-                pane.WARNING_MESSAGE) == JOptionPane.YES_OPTION )  // si YES
-        System.exit(0);                                            // on quitte le programme
-    }
-
     /*----------------------------------
         CLIC BOUTON "archiver"
     ----------------------------------*/
