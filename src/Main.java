@@ -36,7 +36,7 @@ public class Main
         /*------------------------------------------------
             FENETRE GRAPHIQUE DES MONITEURS
         ------------------------------------------------*/
-        MainWindow w1 = new MainWindow("Caserne");
+        MonitorWindow w1 = new MonitorWindow("Caserne");
         //MainWindow w2 = new MainWindow("Second");
 
         /*------------------------------------------------

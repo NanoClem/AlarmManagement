@@ -23,7 +23,7 @@ import fr.decoopmc.responders.Monitor;
  * @version 1.0
  * @see javax.swing.JFrame;
  */
-public class MainWindow extends JFrame
+public class MonitorWindow extends JFrame
                         implements ActionListener, ListSelectionListener {
   /**
    * Taile de l'écran
@@ -72,7 +72,7 @@ public class MainWindow extends JFrame
    * @param title : titre de la fenêtre
    * @throws Exception
    */
-  public MainWindow(String title) throws Exception
+  public MonitorWindow(String title) throws Exception
   {
     super(title);
     setSize(frameSize);

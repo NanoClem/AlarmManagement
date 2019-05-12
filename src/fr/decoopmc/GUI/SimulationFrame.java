@@ -41,7 +41,7 @@ public class SimulationFrame extends JFrame
      * Permet de diffuser les signaux d'alarmes entre les fenêtres enfants présentes dans la liste.
      * </p>
      */
-    private ArrayList<MainWindow> childs = new ArrayList<MainWindow>();
+    private ArrayList<MonitorWindow> childs = new ArrayList<MonitorWindow>();
 
     /**
      * Bouton declencheur de l'alarme.
@@ -178,7 +178,7 @@ public class SimulationFrame extends JFrame
      * 
      * @param p : fenêtre enfant à ajouter
      */
-    public void addChild(MainWindow child) {
+    public void addChild(MonitorWindow child) {
         this.childs.add(child);
     }
 
@@ -187,7 +187,7 @@ public class SimulationFrame extends JFrame
      * 
      * @param p
      */
-    public void removeChild(MainWindow child) {
+    public void removeChild(MonitorWindow child) {
         this.childs.remove(child);
     }
 
@@ -271,7 +271,7 @@ public class SimulationFrame extends JFrame
             if(typeSelected == "Fire") 
             {
                 FireCaptor f = new FireCaptor(loc);
-                Iterator<MainWindow> it = this.childs.iterator();
+                Iterator<MonitorWindow> it = this.childs.iterator();
                 while(it.hasNext()) {
                     it.next().alarmLaunched(f, lvl, format.format(current));
                 }
@@ -282,7 +282,7 @@ public class SimulationFrame extends JFrame
             {
                 GazCaptor g  = new GazCaptor(loc);
                 String gType = this.gazType.getText();
-                Iterator<MainWindow> it = this.childs.iterator();
+                Iterator<MonitorWindow> it = this.childs.iterator();
                 while(it.hasNext()) {
                     it.next().alarmLaunched(g, lvl, gType, format.format(current));
                 }
@@ -300,7 +300,7 @@ public class SimulationFrame extends JFrame
                 }
                 else {
                     RadiationCaptor r = new RadiationCaptor(loc);
-                    Iterator<MainWindow> it = this.childs.iterator();
+                    Iterator<MonitorWindow> it = this.childs.iterator();
                     while(it.hasNext()) {
                         it.next().alarmLaunched(r, lvl, radLvl, format.format(current));
                     }

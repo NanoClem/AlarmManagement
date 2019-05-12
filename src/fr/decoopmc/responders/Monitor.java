@@ -46,7 +46,7 @@ public class Monitor implements FireListener, GazListener, RadiationListener {
   }
 
   /**
-   * Reponse lorsqu'une alarme incendie est declenchee
+   * Reponse lorsqu'une alarme incendie est déclenchée
    * @param fire : evenement message de type incendie
    */
   @Override
@@ -59,7 +59,7 @@ public class Monitor implements FireListener, GazListener, RadiationListener {
   }
 
   /**
-   * Reponse lorsqu'une alarme est declenchee
+   * Reponse lorsqu'une alarme gaz est déclenchée
    * @param gaz : evenement message de type gaz
    */
   @Override
@@ -73,7 +73,7 @@ public class Monitor implements FireListener, GazListener, RadiationListener {
   }
 
   /**
-   * Reponse lorsqu'une alarme est declenchee
+   * Reponse lorsqu'une alarme radiation est déclenchée
    * @param gaz : evenement message de type gaz
    */
   @Override
