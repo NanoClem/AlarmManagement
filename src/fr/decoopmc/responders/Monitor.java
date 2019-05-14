@@ -16,7 +16,7 @@ import fr.decoopmc.interfaces.*;
 public class Monitor implements FireListener, GazListener, RadiationListener {
 
   /**
-   * Le type du moniteur. Permet de savoir quelles type d'alarmes il peut gerer.
+   * Le type du moniteur. Permet de savoir quel type d'alarmes il peut gerer.
    *
    * @see Monitor#Monitor(String)
    * @see Monitor#getType()
