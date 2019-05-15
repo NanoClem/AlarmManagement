@@ -8,7 +8,7 @@ package fr.decoopmc.events;
  *
  * @author decoopmc
  * @version 1.0
- * @param <abstact>
+ * @param <abstract>
  */
 public abstract class AnomalyEvent {
 
